@@ -45,7 +45,7 @@ router.post('/', async (req, res, next) => {
         }
     } catch (err) {
         const response = { "Status": "Failure", "Details": err.message }
-        return res.status(400).send(response)
+        return res.status(500).send(response)
     }
 });
 
@@ -59,7 +59,7 @@ router.get('/', async (req, res, next) => {
         return res.status(200).json(allPitches)
     } catch (err) {
         const response = { "Status": "Failure", "Details": err.message }
-        return res.status(400).send(response)
+        return res.status(500).send(response)
     }
 });
 
@@ -129,7 +129,7 @@ router.post('/:pitch_id/makeOffer', async (req, res, next) => {
         }
     } catch (err) {
         const response = { "Status": "Failure", "Details": err.message }
-        return res.status(400).send(response)
+        return res.status(500).send(response)
     }
 });
 
@@ -143,7 +143,7 @@ router.get('/:id', async (req, res, next) => {
         else return res.status(200).json(singlepitch)
     } catch (err) {
         const response = { "Status": "Failure", "Details": err.message }
-        return res.status(400).send(response)
+        return res.status(500).send(response)
     }
 });
 
