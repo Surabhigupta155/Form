@@ -55,7 +55,7 @@ router.get('/', async (req, res, next) => {
         const allPitches = await Pitches.findAll(
             {attributes: ['id', 'entrepreneur', 'pitchTitle', 'pitchIdea', 'askAmount', 'equity', 'offers']}
             );
-        allPitches.sort((a, b) => { return a.id < b.id?1:-1 } )
+        allPitches.sort((a, b) => { return parseInt(a.id) < parseInt(b.id)?1:-1 } )
         return res.status(200).json(allPitches)
     } catch (err) {
         const response = { "Status": "Failure", "Details": err.message }
