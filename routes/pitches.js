@@ -4,14 +4,22 @@ const { Pitches, CounterOffers } = require('../models')
 router.post('/', async (req, res, next) => {
     try {
         const { entrepreneur, pitchTitle, pitchIdea, askAmount, equity } = req.body;
-        if(Object.keys(req.body).length === 0) {
+        // console.log(req.query);
+        const numOfparams = Object.keys(req.query).length;
+        if(Object.keys(req.body).length !== 5){
+            return res.status(400).json({ "msg": "Pass required params" })
+        }
+        else if(Object.keys(req.body).length === 0) {
             return res.status(400).json({ "msg": "Body is empty" })
         }
         else if(entrepreneur == null || pitchTitle == null ||  pitchIdea == null || askAmount == null || equity == null){
             return res.status(400).json({ "msg": "Wrong parameters" })
         }
-        else if(entrepreneur == "" || equity > 100){
+        else if(entrepreneur == "" || equity > 100 || equity < 0 || askAmount < 0){
             return res.status(400).json({ "msg": "Values not correct" })
+        }
+        else if(typeof entrepreneur !== 'string' || typeof pitchTitle !== 'string' || typeof pitchIdea !== 'string' || typeof askAmount === 'string' || typeof equity === 'string'){
+            return res.status(400).json({ "msg": "Validation error" })
         }
         else{
             const lastrow = await Pitches.findOne({
@@ -59,14 +67,20 @@ router.post('/:pitch_id/makeOffer', async (req, res, next) => {
     const pitch_id = req.params.pitch_id;
     const { investor, amount, equity, comment } = req.body;
     try {
-        if(Object.keys(req.body).length === 0) {
+        if(Object.keys(req.body).length !== 4){
+            return res.status(400).json({ "msg": "Pass required params" })
+        }
+        else if(Object.keys(req.body).length === 0) {
             return res.status(400).json({ "msg": "Body is empty" })
         }
         else if(investor == null || amount == null ||  equity == null || comment == null){
             return res.status(400).json({ "msg": "Wrong parameters" })
         }
-        else if(investor == "" || equity > 100){
+        else if(investor == "" || equity > 100 || equity < 0 || amount < 0){
             return res.status(400).json({ "msg": "Values not correct" })
+        }
+        else if(typeof investor !== 'string' || typeof amount === 'string' || typeof equity === 'string' || typeof comment !== 'string'){
+            return res.status(400).json({ "msg": "Validation error" })
         }
         else{
             const topitch = await Pitches.findOne({ where: { id: pitch_id } });
@@ -91,9 +105,13 @@ router.post('/:pitch_id/makeOffer', async (req, res, next) => {
                     equity: equity,
                     comment: comment
                 })
+                const recentoffer = await CounterOffers.findOne({
+                    order: [ [ 'id', 'DESC' ]], attributes: ['id', 'investor', 'amount', 'equity', 'comment']
+                });
                 var totaloffers = topitch.offers
+
                 // console.log("-------------", totaloffers)
-                totaloffers.push(counterofferadded)
+                totaloffers.push(recentoffer)
                 await Pitches.update({ id: topitch.id,
                     entrepreneur: topitch.entrepreneur,
                     pitchTitle: topitch.pitchTitle,
@@ -122,7 +140,7 @@ router.get('/:id', async (req, res, next) => {
         if(singlepitch == null){
             return res.status(404).json({"msg": "Pitch not found"})
         }
-        return res.status(200).json(singlepitch)
+        else return res.status(200).json(singlepitch)
     } catch (err) {
         const response = { "Status": "Failure", "Details": err.message }
         return res.status(400).send(response)
