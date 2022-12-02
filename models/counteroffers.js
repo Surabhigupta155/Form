@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     comment: DataTypes.STRING
   }, {
     sequelize,
-    tableName: 'counteroffers',
+    tableName: 'counterOffers',
     modelName: 'CounterOffers',
   });
   return CounterOffers;
