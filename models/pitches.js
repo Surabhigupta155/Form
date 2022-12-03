@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Pitches.init({
-    id: {
+    // attributes in pitches table
+    id: { // primary key
       type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true

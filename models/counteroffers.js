@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   CounterOffers.init({
-    id: {
+    //attributes in counterOffer table
+    id: { // primary key
       type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true
