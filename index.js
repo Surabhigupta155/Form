@@ -18,7 +18,7 @@ const prt = process.env.prt || 8081;
 
 app.listen(prt, async() => {
     console.log('Server up on http://localhost:8081')
-    await sequelize.sync({force: true})
+    await sequelize.authenticate()
     console.log('Database Connected!');
 })
 
