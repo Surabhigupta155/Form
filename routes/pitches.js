@@ -10,10 +10,6 @@ router.post('/', async (req, res, next) => {
         if(Object.keys(req.body).length !== 5){
             return res.status(400).json({ "msg": "Pass required params" })
         }
-        // Edge case where the request body is empty
-        else if(Object.keys(req.body).length === 0) {
-            return res.status(400).json({ "msg": "Body is empty" })
-        }
         // Number of body parameters might be 5 but are different than the required ones
         else if(entrepreneur == null || pitchTitle == null ||  pitchIdea == null || askAmount == null || equity == null){
             return res.status(400).json({ "msg": "Wrong parameters" })
@@ -82,10 +78,6 @@ router.post('/:pitch_id/makeOffer', async (req, res, next) => {
         // Edge case where number of parameters in the request body are not equal to 4
         if(Object.keys(req.body).length !== 4){
             return res.status(400).json({ "msg": "Pass required params" })
-        }
-        // Edge case where the request body is empty
-        else if(Object.keys(req.body).length === 0) {
-            return res.status(400).json({ "msg": "Body is empty" })
         }
         // Number of body parameters might be 4 but are different than the required ones
         else if(investor == null || amount == null ||  equity == null || comment == null){
