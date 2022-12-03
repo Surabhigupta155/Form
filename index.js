@@ -16,7 +16,7 @@ app.get('/', (req, res) => res.send('Welcome to the server'));
 const pitches = require('./routes/pitches');
 app.use('/pitches', pitches);
 
-const prt = process.env.PORT || 8081;
+const prt = process.env.prt || 8081;
 
 // start server and listen on port 8081 for connections
 app.listen(prt, async() => {
