@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "admin",
-    "password": "Admin@1324",
-    "database": "xharktank",
+    "username": "postgres",
+    "password": "1234",
+    "database": "form",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
